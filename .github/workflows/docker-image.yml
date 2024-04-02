@@ -17,9 +17,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       
-    - name: Build the Docker image
-      run: cd ./test/ |
-       docker-compose build 
+    - name:  move to the directory
+      run: cd ./test/
+      
+    - name:  build compose
+      run: docker-compose build
+       
     
     - name: Run Docker Compose
       run: docker-compose up -d
