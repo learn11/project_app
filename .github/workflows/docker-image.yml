@@ -34,6 +34,6 @@ jobs:
         password: dckr_pat_9XEnqfirGLwZycr4mxSG8R-8rZI
         
     - name: Push Docker image to Docker Hub
-      run: |
-        docker-compose push
+      run: 
+        docker compose push
 
