@@ -31,8 +31,13 @@ jobs:
       with:
         username: edmonp173
         password: dckr_pat_j5ap_8CtS34WcS0cQq69PcYjkFI
+
+    - name: tag the image
+      run: 
+        docker tag docker compose edmonp173/project_app:latest
+
         
     - name: Push Docker image to Docker Hub
       run: 
-        docker compose push latest
+        docker push edmonp173/project_app:latest
 
