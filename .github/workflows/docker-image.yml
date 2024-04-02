@@ -18,8 +18,8 @@ jobs:
       uses: actions/checkout@v2
       
     - name: Build the Docker image
-      run: cd ./test/
-        docker-compose build 
+      run: cd ./test/ |
+       docker-compose build 
     
     - name: Run Docker Compose
       run: docker-compose up -d
