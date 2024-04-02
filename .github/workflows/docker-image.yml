@@ -30,7 +30,7 @@ jobs:
       uses: docker/login-action@v2
       with:
         username: edmonp173
-        password: dckr_pat_9XEnqfirGLwZycr4mxSG8R-8rZI
+        password: dckr_pat_j5ap_8CtS34WcS0cQq69PcYjkFI
         
     - name: Push Docker image to Docker Hub
       run: 
