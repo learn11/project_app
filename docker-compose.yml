@@ -1,0 +1,44 @@
+version: '3.8'
+
+networks:
+  my_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/24
+
+services:
+  database:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: edmon
+      MYSQL_DATABASE: mydb
+      MYSQL_PASSWORD: edmon
+    networks:
+      my_network:
+        ipv4_address: 172.16.0.2
+    ports:
+      - "3306:3306"
+
+  frontend:
+    build: ./test1
+    networks:
+      my_network:
+        ipv4_address: 172.16.0.3
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./fast_api
+    networks:
+      my_network:
+        ipv4_address: 172.16.0.4
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database

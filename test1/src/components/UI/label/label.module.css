@@ -1,0 +1,170 @@
+/* Label.module.css */
+.epic-sides {
+    position: relative;
+    z-index: 1;
+}
+
+.epic-sides:before {
+    position: absolute;
+    content: "";
+    display: block;
+    top: 0;
+    left: -5000px;
+    height: 100%;
+    width: 15000px;
+    z-index: -1;
+}
+
+.row {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 30px;
+    text-align: center;
+}
+
+.row:first-child {
+    padding: 40px 30px;
+}
+
+.row span {
+    position: relative;
+    display: inline-block;
+    margin: 30px 10px;
+}
+
+.balloon {
+    display: inline-block;
+    width: 215px;
+    padding: 10px 0 10px 15px; /* Adjusted padding for better text input */
+    font-family: "Open Sans", sans;
+    font-weight: 400;
+    color: #377D6A;
+    background: #efefef;
+    border: 0;
+    border-radius: 3px;
+    outline: 0;
+    text-indent: 60px; /* Arbitrary. */
+  transition: all .3s ease-in-out;
+}
+
+.balloon::-webkit-input-placeholder {
+    color: #efefef;
+    text-indent: 0;
+    font-weight: 300;
+}
+
+.balloon:focus,
+.balloon:active {
+    color: #377D6A;
+    text-indent: 0;
+    background: #fff;
+}
+
+.balloon:focus::-webkit-input-placeholder,
+.balloon:active::-webkit-input-placeholder {
+    color: #aaa;
+}
+.inputContainer {
+    position: relative;
+    margin-bottom: 0px;
+    width: 100%;
+  }
+.inputContainer label {
+  position: absolute;
+  display: inline-block;
+  top: 27.5px;
+  left: 0px;
+  padding: 5px;
+  transition: all .3s ease-in-out;
+}
+
+.inputContainer input {
+  padding: 10px 0 10px 15px;
+  margin-top: 25px; /* Adjust this value as needed */
+  margin-right: 0px;
+}
+
+
+
+label {
+    display: inline-block;
+    position: absolute;
+    top: -2px;
+    left: 0px;
+    bottom: -4px;
+    padding: 10px 10px; /* Increased padding to match button */
+    color: #032429;
+    font-size: 13px; /* Increased font size to match button */
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 rgba(19, 74, 70, 0);
+    transition: all .3s ease-in-out;
+    border-radius: 3px;
+    background: rgba(122, 184, 147, 0);
+}
+
+label::after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    top: 100%;
+    left: 50%;
+    margin-left: -3px;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 3px solid rgba(122, 184, 147, 0);
+    transition: all .3s ease-in-out;
+}
+
+.balloon:focus + label,
+.balloon:active + label {
+    color: #fff;
+    text-shadow: 0 1.5px 0 rgba(19, 74, 70, .4);
+    background: rgba(122, 184, 147, 1);
+    transform: translateY(-45px);
+}
+
+.balloon:focus + label::after,
+.balloon:active + label::after {
+    border-top: 4px solid rgba(122, 184, 147, 1);
+}
+
+.btn {
+    box-sizing: border-box;
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid #3498db;
+    border-radius: 3px;
+    color: #3498db;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px; /* Match font size with label */
+    font-weight: 700;
+    line-height: 1;
+    margin: 20px;
+    padding: 10px 15px; /* Match padding with label */
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 150ms ease-in-out;
+}
+
+.btn:hover,
+.btn:focus {
+    color: #fff;
+    background-color: #fff11;
+    outline: 0;
+}
+
+.third {
+    border-color: #3498db;
+    color: #fff;
+    box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;
+    transition: all 150ms ease-in-out;
+
+    &:hover {
+        box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db;
+    }
+}
