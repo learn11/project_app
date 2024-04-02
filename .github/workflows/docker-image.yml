@@ -13,29 +13,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    # Add a step to print the directory content for debugging purposes
-    - name: List directory contents
-      run: ls -R
       
     - name: Build the Docker image
-      run: docker build . --file path/to/Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
     
-    # Add a step to print the content of Dockerfile for debugging purposes
-    - name: Display Dockerfile content
-      run: cat path/to/Dockerfile
-      
-    # Add a step to find the docker-compose.yml file
-    - name: Find docker-compose.yml
-      id: find-compose
-      run: echo "::set-output name=path::$(find . -name 'docker-compose.yml' -print -quit)"
-      
-    # Add the Docker Compose task using the path found
     - name: Run Docker Compose
       run: |
-        if [ -n "${{ steps.find-compose.outputs.path }}" ]; then
-          docker-compose --file "${{ steps.find-compose.outputs.path }}" up -d
-        else
-          echo "Error: docker-compose.yml not found"
-          exit 1
-        fi
+        docker-compose up -d
