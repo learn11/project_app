@@ -23,4 +23,14 @@ jobs:
     
     - name: Run Docker Compose
       run: docker-compose up -d
+       
+    - name: Log into Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: edmonp173
+        password: dckr_pat_9XEnqfirGLwZycr4mxSG8R-8rZI
+        
+    - name: Push Docker image to Docker Hub
+      run: |
+        docker-compose push
 
