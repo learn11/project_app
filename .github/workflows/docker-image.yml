@@ -21,9 +21,8 @@ jobs:
       run: cd ../test/
       
     - name:  build compose
-      run: docker compose build
+      run: docker-compose build --build-arg TAG=latest
        
-    
     - name: Run Docker Compose
       run: docker compose up -d
        
