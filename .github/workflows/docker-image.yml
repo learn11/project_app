@@ -21,7 +21,7 @@ jobs:
       run: cd ../test/
       
     - name:  build compose
-      run: docker-compose build -t latest
+      run: docker-compose build
        
     - name: Run Docker Compose
       run: docker compose up -d
@@ -35,5 +35,5 @@ jobs:
         
     - name: Push Docker image to Docker Hub
       run: 
-        docker push latest
+        docker push project_service
 
