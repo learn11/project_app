@@ -20,5 +20,6 @@ jobs:
     # Add the Docker Compose task here
     - name: Run Docker Compose
       run: |
-        docker-compose --file docker-compose.yml up -d
+        docker-compose --file ../../*/docker-compose.yml up -d
+        # Adjust the path based on your actual directory structure
         # Additional commands can be added here if needed
