@@ -16,10 +16,18 @@ jobs:
       
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-    
-    # Add the Docker Compose task here
+      
+    # Add a step to find the docker-compose.yml file
+    - name: Find docker-compose.yml
+      id: find-compose
+      run: echo "::set-output name=path::$(find . -name 'docker-compose.yml' -print -quit)"
+      
+    # Add the Docker Compose task using the path found
     - name: Run Docker Compose
       run: |
-        docker-compose --file ./path/to/docker-compose.yml up -d
-        # Adjust the path based on your actual directory structure
-        # Additional commands can be added here if needed
+        if [ -n "${{ steps.find-compose.outputs.path }}" ]; then
+          docker-compose --file "${{ steps.find-compose.outputs.path }}" up -d
+        else
+          echo "Error: docker-compose.yml not found"
+          exit 1
+        fi
