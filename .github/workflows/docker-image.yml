@@ -21,10 +21,7 @@ jobs:
       run: cd ../test/
       
     - name:  build compose
-      run: docker-compose build --build-arg TAG=latest
-        for service in $(docker-compose config --services); do
-          docker tag ${service}:latest ${service}:latest
-        done
+      run: docker-compose build -t latest
        
     - name: Run Docker Compose
       run: docker compose up -d
