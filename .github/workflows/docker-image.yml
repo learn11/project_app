@@ -35,5 +35,5 @@ jobs:
         
     - name: Push Docker image to Docker Hub
       run: 
-        docker push backend
+        docker compose push
 
