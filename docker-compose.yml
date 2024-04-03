@@ -13,6 +13,7 @@ services:
     build:
       context: ./mysql
       dockerfile: Dockerfile
+      image: edmonp173/project_app:mysql
     environment:
       MYSQL_ROOT_PASSWORD: edmon
       MYSQL_DATABASE: mydb
@@ -25,6 +26,7 @@ services:
 
   react:
     build: ./test1
+    image: edmonp173/project_app:react
     networks:
       my_network:
         ipv4_address: 172.16.0.3
@@ -35,6 +37,7 @@ services:
 
   backend:
     build: ./fast_api
+    image: edmonp173/project_app:backend
     networks:
       my_network:
         ipv4_address: 172.16.0.4
