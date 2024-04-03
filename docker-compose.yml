@@ -31,7 +31,7 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      - Backend
 
   Backend:
     build: ./fast_api
@@ -41,4 +41,4 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - database
+      - mysql
