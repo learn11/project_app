@@ -31,9 +31,9 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - Backend
+      - backend
 
-  Backend:
+  backend:
     build: ./fast_api
     networks:
       my_network:
