@@ -1,5 +1,4 @@
-![Badge](https://github.com/learn11/test/actions/workflows/docker-image.yml/badge.svg)
-
+[![Docker Image CI](https://github.com/learn11/test/actions/workflows/docker-image.yml/badge.svg)](https://github.com/learn11/test/actions/workflows/docker-image.yml)
 
 npm install
 npm start
