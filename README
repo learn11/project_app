@@ -1,3 +1,6 @@
+[![Docker Image CI](https://github.com/learn11/test/actions/workflows/docker-image.yml/badge.svg)](https://github.com/learn11/test/actions/workflows/docker-image.yml)
+
+
 npm install
 npm start
 
@@ -9,4 +12,3 @@ npm start
 docker build -t my-fastapi-app .
 docker run -d -p 8000:8000 my-fastapi-app
 
-[![Docker Image CI](https://github.com/learn11/test/actions/workflows/docker-image.yml/badge.svg)]
