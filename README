@@ -1,5 +1,4 @@
-[![Build Status](https://shields.io/github/workflow/status/learn11/test/docker-image.yml)](https://github.com/learn11/test/actions/workflows/docker-image.yml)
-
+[![Docker Image CI](https://github.com/learn11/project_app/actions/workflows/docker-image.yml/badge.svg)](https://github.com/learn11/project_app/actions/workflows/docker-image.yml)
 npm install
 npm start
 
