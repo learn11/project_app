@@ -9,7 +9,7 @@ networks:
         - subnet: 172.16.0.0/24
 
 services:
-  database:
+  mysql:
     build:
       context: ./mysql
       dockerfile: Dockerfile
@@ -23,7 +23,7 @@ services:
     ports:
       - "3306:3306"
 
-  frontend:
+  react:
     build: ./test1
     networks:
       my_network:
@@ -33,7 +33,7 @@ services:
     depends_on:
       - backend
 
-  backend:
+  Backend:
     build: ./fast_api
     networks:
       my_network:
