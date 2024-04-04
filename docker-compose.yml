@@ -10,9 +10,7 @@ networks:
 
 services:
   mysql:
-    build:
-      context: ./mysql
-      dockerfile: Dockerfile
+    build: ./mysql
     image: edmonp173/project_app:mysql
     environment:
       MYSQL_ROOT_PASSWORD: edmon
