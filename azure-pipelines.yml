@@ -10,9 +10,6 @@ jobs:
   steps:
   - checkout: self
       
-  - script: |
-      cd /project_app/
-    displayName: 'Move to the directory'
     
   - script: |
       docker-compose build
