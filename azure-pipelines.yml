@@ -11,7 +11,7 @@ jobs:
   - checkout: self
       
   - script: |
-      cd $(System.DefaultWorkingDirectory)/../project_app/
+      cd $(System.DefaultWorkingDirectory)/project_app/
     displayName: 'Move to the directory'
     
   - script: |
