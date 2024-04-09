@@ -28,20 +28,6 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    #Create ACR to keep docker images
-    - task: AzureResourceManagerTemplateDeployment@3
-      displayName: Deploy ACR Bicep
-      inputs:
-        deploymentScope: 'Resource Group'
-        azureResourceManagerConnection: $(azureserviceconnection)
-        subscriptionId: $(subscriptionId)
-        action: 'Create Or Update Resource Group'
-        resourceGroupName: '$(resource-group)'
-        location: '$(location)'
-        templateLocation: 'Linked artifact'
-        csmFile: '$(templateFile)'
-        deploymentMode: 'Incremental'
-        deploymentOutputs: 'acr-json'
     
     #Parse ACR login server variable
     - task: PowerShell@2
