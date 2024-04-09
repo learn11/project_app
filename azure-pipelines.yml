@@ -1,11 +1,5 @@
-#NAME THE PIPELINE SAME AS FILE (WITHOUT ".yml")
-
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
-# trigger:
-# - main
+trigger:
+- main
 
 resources:
   repositories:
@@ -28,7 +22,6 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    #Create ACR to keep docker images
     - task: AzureResourceManagerTemplateDeployment@3
       displayName: Deploy ACR Bicep
       inputs:
@@ -42,8 +35,6 @@ stages:
         csmFile: '$(templateFile)'
         deploymentMode: 'Incremental'
         deploymentOutputs: 'acr-json'
-    
-    #Parse ACR login server variable
     - task: PowerShell@2
       displayName: Parse Bicep Output
       inputs:
@@ -53,7 +44,6 @@ stages:
           $value=$var.acrloginServer.value
           Write-Host "##vso[task.setvariable variable=acrloginserver;]$value"
           echo $acrloginserver
-    # docker compose build images
     - task: DockerCompose@0
       displayName: Build Docker Compose
       inputs:
@@ -76,3 +66,27 @@ stages:
         action: 'Push services'
         additionalImageTags: '$(Build.BuildNumber)'
         includeLatestTag: true
+
+- stage: DockerImageCI
+  displayName: 'Docker Image CI'
+  jobs:
+  - job: DockerImageCI
+    displayName: 'Docker Image CI'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+    - script: |
+        docker-compose build
+      displayName: 'Build Compose'
+    - script: |
+        docker-compose up -d
+      displayName: 'Run Docker Compose'
+    - task: Docker@2
+      displayName: 'Login to Docker Hub'
+      inputs:
+        command: 'login'
+        containerRegistry: 'docker'
+    - script: |
+        docker-compose push
+      displayName: 'Push Docker image to Docker Hub'
