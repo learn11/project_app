@@ -8,10 +8,10 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  resource-group: 'AZ400-EWebShop-NAME'
+  resource-group: 'test'
   location: 'westeurope'
   azureserviceconnection: 'azure subs'
-  subscriptionId: 'Azure Pass'
+  subscriptionId: '60b368aa-1a93-4120-a681-af4ed2f70bcd'
 
 stages:
 - stage: BuildACR
