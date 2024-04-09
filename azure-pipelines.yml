@@ -1,5 +1,11 @@
-trigger:
-- main
+#NAME THE PIPELINE SAME AS FILE (WITHOUT ".yml")
+
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+# trigger:
+# - main
 
 resources:
   repositories:
@@ -8,21 +14,21 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  resource-group: 'test'
+  resource-group: 'AZ400-EWebShop-NAME'
   location: 'westeurope'
+  templateFile: 'acr.bicep'
   azureserviceconnection: 'azure subs'
-  subscriptionId: '60b368aa-1a93-4120-a681-af4ed2f70bcd'
+  subscriptionId: 'Azure Pass'
 
 stages:
-- stage: BuildACR
+- stage: Build
   displayName: Create ACR for images
   jobs:
-  - job: BuildACR
-    displayName: 'Build ACR'
+  - job: Build
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: ubuntu-latest
     steps:
-    - checkout: self
+    #Create ACR to keep docker images
     - task: AzureResourceManagerTemplateDeployment@3
       displayName: Deploy ACR Bicep
       inputs:
@@ -36,6 +42,8 @@ stages:
         csmFile: '$(templateFile)'
         deploymentMode: 'Incremental'
         deploymentOutputs: 'acr-json'
+    
+    #Parse ACR login server variable
     - task: PowerShell@2
       displayName: Parse Bicep Output
       inputs:
@@ -45,15 +53,7 @@ stages:
           $value=$var.acrloginServer.value
           Write-Host "##vso[task.setvariable variable=acrloginserver;]$value"
           echo $acrloginserver
-
-- stage: Build
-  displayName: Build Docker images
-  dependsOn: BuildACR
-  jobs:
-  - job: Build
-    pool:
-      vmImage: ubuntu-latest
-    steps:
+    # docker compose build images
     - task: DockerCompose@0
       displayName: Build Docker Compose
       inputs:
@@ -65,28 +65,14 @@ stages:
         action: 'Build services'
         additionalImageTags: '$(Build.BuildNumber)'
         includeLatestTag: true
-
-- stage: DockerImageCI
-  displayName: 'Docker Image CI'
-  dependsOn: Build
-  jobs:
-  - job: DockerImageCI
-    displayName: 'Docker Image CI'
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-    - script: |
-        docker-compose build
-      displayName: 'Build Compose'
-    - script: |
-        docker-compose up -d
-      displayName: 'Run Docker Compose'
-    - task: Docker@2
-      displayName: 'Login to Docker Hub'
+    - task: DockerCompose@0
+      displayName: Push Docker Compose
       inputs:
-        command: 'login'
-        containerRegistry: 'docker'
-    - script: |
-        docker-compose push
-      displayName: 'Push Docker image to Docker Hub'
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: $(azureserviceconnection)
+        azureContainerRegistry: '$(acrloginserver)'
+        dockerComposeFile: '**/docker-compose.yml'
+        projectName: 
+        action: 'Push services'
+        additionalImageTags: '$(Build.BuildNumber)'
+        includeLatestTag: true
