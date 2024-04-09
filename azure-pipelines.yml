@@ -10,7 +10,7 @@ variables:
   tag: '$(Build.BuildId)'
   resource-group: 'app-project'
   location: 'westeurope'
-  templateFile: 'acr.bicep'
+
   azureserviceconnection: 'azure subs'
   subscriptionId: 'Azure Pass'
 
