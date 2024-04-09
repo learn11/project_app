@@ -11,16 +11,18 @@ variables:
   resource-group: 'AZ400-EWebShop-NAME'
   location: 'westeurope'
   azureserviceconnection: 'azure subs'
-  subscriptionId: 'YOUR-SUBSCRIPTION-ID'
+  subscriptionId: 'Azure Pass'
 
 stages:
-- stage: Build
+- stage: BuildACR
   displayName: Create ACR for images
   jobs:
-  - job: Build
+  - job: BuildACR
+    displayName: 'Build ACR'
     pool:
-      vmImage: ubuntu-latest
+      vmImage: 'ubuntu-latest'
     steps:
+    - checkout: self
     - task: AzureResourceManagerTemplateDeployment@3
       displayName: Deploy ACR Bicep
       inputs:
@@ -43,6 +45,15 @@ stages:
           $value=$var.acrloginServer.value
           Write-Host "##vso[task.setvariable variable=acrloginserver;]$value"
           echo $acrloginserver
+
+- stage: Build
+  displayName: Build Docker images
+  dependsOn: BuildACR
+  jobs:
+  - job: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
     - task: DockerCompose@0
       displayName: Build Docker Compose
       inputs:
@@ -54,20 +65,10 @@ stages:
         action: 'Build services'
         additionalImageTags: '$(Build.BuildNumber)'
         includeLatestTag: true
-    - task: DockerCompose@0
-      displayName: Push Docker Compose
-      inputs:
-        containerregistrytype: 'Azure Container Registry'
-        azureSubscription: $(azureserviceconnection)
-        azureContainerRegistry: '$(acrloginserver)'
-        dockerComposeFile: '**/docker-compose.yml'
-        projectName: 
-        action: 'Push services'
-        additionalImageTags: '$(Build.BuildNumber)'
-        includeLatestTag: true
 
 - stage: DockerImageCI
   displayName: 'Docker Image CI'
+  dependsOn: Build
   jobs:
   - job: DockerImageCI
     displayName: 'Docker Image CI'
@@ -89,23 +90,3 @@ stages:
     - script: |
         docker-compose push
       displayName: 'Push Docker image to Docker Hub'
-
-- stage: BuildACR
-  displayName: Create ACR for images
-  jobs:
-  - job: BuildACR
-    displayName: 'Build ACR'
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-    - task: AzureCLI@2
-      displayName: 'Azure CLI - Create ACR'
-      inputs:
-        azureSubscription: $(azureserviceconnection)
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          suffix=$(az group show --name $(resource-group) --query id --output tsv | md5sum | head -c8)
-          location=$(az group show --name $(resource-group) --query location --output tsv)
-          az acr create --name "cr$suffix" --resource-group $(resource-group) --location $location --sku Basic --admin-enabled false
