@@ -30,7 +30,7 @@ stages:
         subscriptionId: $(subscriptionId)
         action: 'Create Or Update Resource Group'
         resourceGroupName: '$(resource-group)'
-        location: '$(location)'
+        location: 'westeurope'
         templateLocation: 'Linked artifact'
         csmFile: '$(templateFile)'
         deploymentMode: 'Incremental'
