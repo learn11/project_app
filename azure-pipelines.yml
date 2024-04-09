@@ -14,7 +14,7 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  resource-group: 'AZ400-EWebShop-NAME'
+  resource-group: 'test'
   location: 'westeurope'
   templateFile: 'acr.bicep'
   azureserviceconnection: 'azure subs'
