@@ -8,11 +8,10 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  resource-group: 'app-project'
+  resource-group: 'AZ400-EWebShop-NAME'
   location: 'westeurope'
-  templateFile: 'acr.bicep'
   azureserviceconnection: 'azure subs'
-  subscriptionId: 'Azure Pass'
+  subscriptionId: 'YOUR-SUBSCRIPTION-ID'
 
 stages:
 - stage: Build
@@ -30,7 +29,7 @@ stages:
         subscriptionId: $(subscriptionId)
         action: 'Create Or Update Resource Group'
         resourceGroupName: '$(resource-group)'
-        location: 'westeurope'
+        location: '$(location)'
         templateLocation: 'Linked artifact'
         csmFile: '$(templateFile)'
         deploymentMode: 'Incremental'
@@ -90,3 +89,23 @@ stages:
     - script: |
         docker-compose push
       displayName: 'Push Docker image to Docker Hub'
+
+- stage: BuildACR
+  displayName: Create ACR for images
+  jobs:
+  - job: BuildACR
+    displayName: 'Build ACR'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+    - task: AzureCLI@2
+      displayName: 'Azure CLI - Create ACR'
+      inputs:
+        azureSubscription: $(azureserviceconnection)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          suffix=$(az group show --name $(resource-group) --query id --output tsv | md5sum | head -c8)
+          location=$(az group show --name $(resource-group) --query location --output tsv)
+          az acr create --name "cr$suffix" --resource-group $(resource-group) --location $location --sku Basic --admin-enabled false
