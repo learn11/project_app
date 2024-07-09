@@ -23,7 +23,7 @@ services:
       - "3306:3306"
 
   react:
-    build: ./test1
+    build: ./React
     image: edmonp173/project_app:react
     networks:
       my_network:
@@ -34,7 +34,7 @@ services:
       - backend
 
   backend:
-    build: ./fast_api
+    build: ./Python
     image: edmonp173/project_app:backend
     networks:
       my_network:
