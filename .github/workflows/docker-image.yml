@@ -1,40 +1,37 @@
-name: Docker Image CI
+name: Build and Push Docker Images
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-
-  build:
-
+  build-and-push:
     runs-on: ubuntu-latest
-    
-    defaults:
-      run:
-        working-directory: ./
+
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name:  move to the directory
-      run: cd ../project_app/
-      
-    - name:  build compose
-      run: docker compose build
-       
-    - name: Run Docker Compose
-      run: docker compose up -d
-       
-    - name: Log into Docker Hub
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.dockername }}
         password: ${{ secrets.dockerhub }}
 
-        
-    - name: Push Docker image to Docker Hub
-      run: 
-        docker compose push
+    - name: Build and push fast_api image
+      uses: docker/build-push-action@v4
+      with:
+        context: ./Python
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/backend:latest
 
-
+    - name: Build and push test1 image
+      uses: docker/build-push-action@v4
+      with:
+        context: ./React
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/react:latest
