@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./Python
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/backend:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/Python:latest
 
     - name: Build and push test1 image
       uses: docker/build-push-action@v4
