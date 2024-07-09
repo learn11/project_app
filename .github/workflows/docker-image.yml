@@ -27,11 +27,11 @@ jobs:
       with:
         context: ./Python
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/Python:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/project_app:Python
 
     - name: Build and push test1 image
       uses: docker/build-push-action@v4
       with:
         context: ./React
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/react:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/project_app:react
