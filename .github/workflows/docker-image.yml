@@ -22,16 +22,16 @@ jobs:
         username: ${{ secrets.dockername }}
         password: ${{ secrets.dockerhub }}
 
-    - name: Build and push fast_api image
+    - name: Build and push Python image
       uses: docker/build-push-action@v4
       with:
         context: ./Python
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/project_app:Python
+        tags: ${{ secrets.dockername }}/project_app:python
 
-    - name: Build and push test1 image
+    - name: Build and push React image
       uses: docker/build-push-action@v4
       with:
         context: ./React
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/project_app:react
+        tags: ${{ secrets.dockername }}/project_app:react
