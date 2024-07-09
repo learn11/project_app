@@ -1,15 +1,8 @@
+to easy run my app you can you the docker compose 
+go in the comandline to this directory (after cloning) and run commands 'docker compose build' 'docker compose up'
+then it will build 3 conteiners (sql,react,python)
 
+you can see the up on localhost:3000
+and the backed will run on localhost:8000
 
-npm install
-npm start
-
- זה של הריאקט
- docker build -t my-react-app .
- docker run -p 3000:3000 my-react-app
-
- זה של API
-docker build -t my-fastapi-app .
-docker run -d -p 8000:8000 my-fastapi-app
-
-test
-
+*you need docker*
