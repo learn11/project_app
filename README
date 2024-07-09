@@ -1,8 +1,8 @@
 to easy run my app you can you the docker compose 
-go in the comandline to this directory (after cloning) and run commands 'docker compose build' 'docker compose up'
+go with the commandline to this directory (after cloning) and run commands 'docker compose build' 'docker compose up'
 then it will build 3 conteiners (sql,react,python)
 
-you can see the up on localhost:3000
+you can see the app on localhost:3000
 and the backed will run on localhost:8000
 
 *you need docker*
